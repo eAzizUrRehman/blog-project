@@ -32,7 +32,6 @@ export default {
       submitted: false,
     }
   },
-
   methods: {
     addComment: function () {
       const tempComment = {
@@ -44,7 +43,6 @@ export default {
         comment: tempComment,
       })
     },
-    
   },
 }
 </script>

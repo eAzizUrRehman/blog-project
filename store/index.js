@@ -12,7 +12,7 @@ export default {
     },
     updatePost(state, payload) {
       const post = state.blog.posts.find(
-        (post) => post.id === payload.updatedPostId
+        (post) => post.id === payload.updatedPostId,
       )
       if (post) {
         Object.assign(post, payload.updatedPost)
@@ -42,12 +42,28 @@ export default {
         throw new Error(`Post with ID ${postId} not found`)
       }
       const commentIndex = post.comments.findIndex(
-        (comment) => comment.id === commentId
+        (comment) => comment.id === commentId,
       )
       if (commentIndex !== -1) {
         post.comments.splice(commentIndex, 1)
       } else {
         throw new Error(`Comment with ID ${commentId} not found`)
+      }
+    },
+
+    editComment(state, payload) {
+      const post = state.blog.posts.find((post) => post.id === payload.postId)
+      if (post) {
+        const comment = post.comments.find(
+          (comment) => comment.id === payload.commentId,
+        )
+        if (comment) {
+          Object.assign(comment, payload.updatedComment)
+        } else {
+          throw new Error(`Comment with ID ${payload.commentId} not found`)
+        }
+      } else {
+        throw new Error(`Post with ID ${payload.postId} not found`)
       }
     },
   },

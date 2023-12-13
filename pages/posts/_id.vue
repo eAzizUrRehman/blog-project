@@ -39,17 +39,32 @@
         <div
           class="gradient px-4 py-0.5 flex justify-between items-center rounded mb-4"
         >
-          <p class="inline">
+          <p v-if="editingCommentId !== comment.id" class="inline relative">
             {{ comment.text }}
           </p>
+
+          <input
+            v-else
+            v-model.lazy="updatedCommentText"
+            type="text"
+            class="gradient h-10 rounded dim-white-border px-4 absolute focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900"
+          />
+
           <button
-            @click.prevent="editComment"
+            @click.prevent="editComment(comment.id, comment.text)"
             class="gradient w-fit mx-auto px-2 py-1 text-xs rounded dim-white-border"
           >
             Edit
           </button>
           <button
-            @click.prevent="deleteComment"
+            v-if="editingCommentId === comment.id"
+            @click.prevent="saveComment(comment.id)"
+            class="gradient w-fit mx-auto px-2 py-1 text-xs rounded dim-white-border"
+          >
+            Save
+          </button>
+          <button
+            @click.prevent="deleteComment(comment.id)"
             class="gradient w-fit mx-auto px-2 py-1 text-xs rounded dim-white-border"
           >
             delete
@@ -77,12 +92,15 @@ export default {
     return {
       post: null,
       showUpdatePost: false,
+      updatedCommentText: '',
+      isInputDisabled: true,
+      editingCommentId: null,
     }
   },
   methods: {
     bringPostData() {
       this.post = this.$store.state.blog.posts.find(
-        (post) => post.id === parseInt(this.id)
+        (post) => post.id === parseInt(this.id),
       )
     },
     deletePost() {
@@ -100,11 +118,36 @@ export default {
         addSuffix: true,
       })
     },
-    editComment() {
-      // this.$store.commit('editComment', this.post.id)
+    editComment(commentId, commentText) {
+      this.editingCommentId = commentId
+      this.updatedCommentText = commentText
     },
-    deleteComment() {
-      this.$store.commit('deleteComment', this.post.id)
+    deleteComment(commentId) {
+      this.$store.commit('deleteComment', {
+        postId: this.post.id,
+        commentId: commentId,
+        updatedCommentText: this.updatedCommentText,
+      })
+    },
+    displayText() {
+      return this.comment.text ? this.comment.text : this.comment.initialText
+    },
+    getCommentText(comment) {
+      return this.editingCommentId === comment.id
+        ? this.updatedCommentText
+        : comment.text
+    },
+
+    saveComment(commentId) {
+      this.$store.commit('editComment', {
+        postId: this.post.id,
+        commentId: commentId,
+        updatedComment: {
+          text: this.updatedCommentText,
+          date: new Date(),
+        },
+      })
+      this.editingCommentId = null
     },
   },
 

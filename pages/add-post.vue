@@ -4,9 +4,7 @@
       v-show="!submitted"
       class="gradient rounded-3xl container dim-white-border px-4 py-10"
     >
-      <PostDataCollector
-      
-      />
+      <PostDataCollector />
     </div>
 
     <div
@@ -26,8 +24,6 @@ export default {
   components: {
     PostDataCollector,
   },
-  methods: {
-    
-  },
+  methods: {},
 }
 </script>

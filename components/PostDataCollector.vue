@@ -71,14 +71,17 @@ export default {
         date: new Date(),
         comments: [],
       }
-      console.log('update ', this.update)
       if (this.update) {
         this.$store.commit('updatePost', {
           updatedPostId: this.updatedPostId,
           updatedPost: tempPost,
         })
+        this.$toast.success('Post updated successfully')
         this.$emit('postUpdated')
-      } else this.$store.commit('addPost', tempPost)
+      } else {
+        this.$store.commit('addPost', tempPost)
+        this.$toast.success('Post added successfully')
+      }
     },
   },
 }

@@ -10,9 +10,7 @@
               alt="logo"
               class="hover:opacity-70 w-10 shadow-md"
             />
-            <h3 class="min-h-full my-auto font-semibold">
-              HiTech Blog
-            </h3>
+            <h3 class="min-h-full my-auto font-semibold">HiTech Blog</h3>
           </div>
         </NuxtLink>
 

@@ -1,7 +1,7 @@
 export const navLinks = [
   {
     id: 1,
-    name: 'Show Blogs',
+    name: 'Show Posts',
     path: '/',
   },
   {

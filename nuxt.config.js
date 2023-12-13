@@ -23,7 +23,11 @@ export default {
 
   buildModules: ['@nuxtjs/tailwindcss'],
 
-  modules: [],
+  modules: ['@nuxtjs/toast'],
+  toast: {
+    position: 'top-center',
+    duration: 2000,
+  },
 
   build: {},
 }

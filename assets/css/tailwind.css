@@ -22,7 +22,7 @@
   }
 
   .dim-white-border {
-    @apply border-[0.1px] border-white border-opacity-20
+    @apply border-[0.1px] border-white border-opacity-20;
   }
 }
 
