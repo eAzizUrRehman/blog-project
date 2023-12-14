@@ -8,7 +8,7 @@
             type="text"
             v-model.lazy="post.title"
             :placeholder="titlePlaceholder"
-            class="gradient w-96 h-10 rounded dim-white-border px-4"
+            class="gradient w-96 h-10 rounded border-all dim-white-border px-4"
             required
           />
         </div>
@@ -16,22 +16,25 @@
           <textarea
             v-model.lazy="post.content"
             :placeholder="contentPlaceholder"
-            class="gradient w-96 h-40 rounded dim-white-border p-4"
+            class="gradient w-96 h-40 rounded border-all dim-white-border p-4"
           ></textarea>
         </div>
-
-        <button
-          @click.prevent="handleClick"
-          class="gradient w-fit mx-auto px-4 py-2 rounded dim-white-border"
-        >
-          Submit
-        </button>
+        <Button
+          :text="update ? 'Update' : 'Submit'"
+          :icon="
+            update
+              ? require('@/assets/images/update-icon.svg')
+              : require('@/assets/images/add-icon.svg')
+          "
+          :isSuccess="true"
+          @handleClick="handleClick"
+        />
       </div>
     </form>
   </div>
 </template>
-
 <script>
+import Button from '@/components/Button.vue'
 export default {
   props: {
     headerText: {
@@ -51,8 +54,10 @@ export default {
     },
     updatedPostId: {
       type: Number,
-      required: true,
     },
+  },
+  components: {
+    Button,
   },
   data() {
     return {
@@ -64,27 +69,33 @@ export default {
     }
   },
   methods: {
-    handleClick: function () {
+    async handleClick() {
+      if (!this.post.title.trim()) {
+        this.$toast.error('Title cannot be empty')
+        return
+      }
+      if (!this.post.content.trim()) {
+        this.$toast.error('Content cannot be empty')
+        return
+      }
       const tempPost = {
-        title: this.post.title,
-        content: this.post.content,
-        date: new Date(),
+        title: this.post.title.trim(),
+        content: this.post.content.trim(),
+        date: new Date().toISOString(),
         comments: [],
       }
       if (this.update) {
-        this.$store.commit('updatePost', {
+        const wasUpdated = await this.$store.dispatch('updatePost', {
           updatedPostId: this.updatedPostId,
           updatedPost: tempPost,
         })
-        this.$toast.success('Post updated successfully')
-        this.$emit('postUpdated')
+        if (wasUpdated) {
+          this.$emit('postUpdated')
+        }
       } else {
         this.$store.commit('addPost', tempPost)
-        this.$toast.success('Post added successfully')
       }
     },
   },
 }
 </script>
-
-<style></style>

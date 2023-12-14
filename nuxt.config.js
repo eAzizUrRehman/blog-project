@@ -1,6 +1,5 @@
 export default {
   ssr: false,
-
   head: {
     title: 'HiTech Blog - Tech Unleashed',
     htmlAttrs: {
@@ -14,20 +13,14 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/logo.svg' }],
   },
-
   css: [],
-
   plugins: [],
-
   components: true,
-
   buildModules: ['@nuxtjs/tailwindcss'],
-
   modules: ['@nuxtjs/toast'],
   toast: {
     position: 'top-center',
     duration: 2000,
   },
-
   build: {},
 }
