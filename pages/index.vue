@@ -19,6 +19,7 @@
                 ({{ postAge(post.date) }})
               </p>
               <div class="flex gap-2">
+                <!-- DEBUG: fix edit button not working -->
                 <Button
                   :icon="require('@/assets/images/edit-icon.svg')"
                   :isSuccess="true"
@@ -30,10 +31,17 @@
                     })
                   "
                 />
+                <!-- DEBUG: check why on second time, animateTitle is dispatched 4 to 5 times when delete is clicked -->
                 <Button
                   :icon="require('@/assets/images/delete-icon.svg')"
                   :isDanger="true"
-                  @handleClick="deletePost(post.id)"
+                  @handleClick="openDeleteModal = true"
+                />
+                <DeleteModal
+                  v-if="openDeleteModal"
+                  text="Are you sure you want to delete this post?"
+                  @handleDeleteConfirmed="handleDeletePost(post.id)"
+                  @handleDeleteCancelled="openDeleteModal = false"
                 />
               </div>
             </div>
@@ -57,7 +65,12 @@
           text="Add Post"
           :icon="require('@/assets/images/add-icon.svg')"
           :isSuccess="true"
-          @handleClick="$router.push('/add-post')"
+          @handleClick="openAddOrUpdateModal = true"
+        />
+        <AddOrUpdateModal
+          v-if="openAddOrUpdateModal"
+          @handleAddOrUpdateCancelled="openAddOrUpdateModal = false"
+          @postAdded="openAddOrUpdateModal = false"
         />
       </div>
     </div>
@@ -65,48 +78,36 @@
 </template>
 <script>
 import Button from '@/components/Button.vue'
+import AddOrUpdateModal from '@/components/AddOrUpdateModal.vue'
 import { format, formatDistanceToNow, parseISO } from 'date-fns'
 export default {
   components: {
     Button,
+    AddOrUpdateModal,
   },
   data() {
     return {
-      animatedTitle: '',
-      intervalId: null,
+      openDeleteModal: false,
+      deleteConfirmed: false,
+      openAddOrUpdateModal: false,
     }
   },
+  computed: {
+    posts() {
+      return this.$store.state.blog.posts
+    },
+    animatedTitle() {
+      return this.$store.state.animatedTitle
+    },
+  },
   mounted() {
-    this.animateTitle()
+    this.$store.commit('closeModal')
+    this.$store.dispatch('animateTitle')
+  },
+  beforeDestroy() {
+    this.$store.commit('openModal')
   },
   methods: {
-    animateTitle() {
-      let i = 0
-      let direction = 'forward'
-      const text = 'HiTech Blog - Tech Unleashed...!'
-      const animate = () => {
-        if (direction === 'forward') {
-          if (i < text.length) {
-            this.animatedTitle = text.substring(0, i + 1)
-            i++
-          } else {
-            direction = 'backward'
-            i--
-          }
-        } else if (direction === 'backward') {
-          if (i >= 0) {
-            this.animatedTitle = text.substring(0, i)
-            i--
-          } else {
-            direction = 'forward'
-            i++
-          }
-        }
-        const speed = direction === 'forward' ? 200 : 25
-        setTimeout(animate, speed)
-      }
-      animate()
-    },
     showPostDate(date) {
       if (!date || isNaN(Date.parse(date))) {
         return ''
@@ -128,13 +129,9 @@ export default {
       const parsedDate = parseISO(date)
       return formatDistanceToNow(parsedDate, { addSuffix: true })
     },
-    deletePost(id) {
+    handleDeletePost(id) {
       this.$store.commit('deletePost', id)
-    },
-  },
-  computed: {
-    posts: function () {
-      return this.$store.state.blog.posts
+      this.openDeleteModal = false
     },
   },
 }

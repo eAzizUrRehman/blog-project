@@ -16,19 +16,22 @@
           </div>
         </NuxtLink>
         <div class="flex gap-4">
-          <div
-            v-for="link in navLinks"
-            :key="link.id"
-            class="transition-all ease-in-out duration-2000"
-          >
-            <Button
-              :text="link.name"
-              :icon="link.icon"
-              :isSuccess="link.isSuccess"
-              :isDanger="link.isDanger"
-              @handleClick="$router.push(link.path)"
-            />
-          </div>
+          <Button
+            text="Show Posts"
+            :icon="require('@/assets/images/posts-icon.svg')"
+            @handleClick="$router.push('/')"
+          />
+          <Button
+            text="Add Post"
+            :icon="require('@/assets/images/add-icon.svg')"
+            :isSuccess="true"
+            @handleClick="openAddOrUpdateModal = true"
+          />
+          <AddOrUpdateModal
+            v-if="openAddOrUpdateModal"
+            @handleAddOrUpdateCancelled="openAddOrUpdateModal = false"
+            @postAdded="openAddOrUpdateModal = false"
+          />
         </div>
       </div>
     </div>
@@ -36,14 +39,25 @@
 </template>
 <script>
 import Button from '@/components/Button.vue'
+import AddOrUpdateModal from '@/components/AddOrUpdateModal.vue'
 export default {
+  data() {
+    return {
+      openAddOrUpdateModal: false,
+    }
+  },
   computed: {
-    navLinks() {
-      return this.$store.state.navLinks
+    isAnyModalOpen() {
+      return this.$store.state.isAnyModalOpen
+    },
+    animatedTitle() {
+      return this.$store.state.animatedTitle
     },
   },
   components: {
     Button,
+    AddOrUpdateModal,
   },
+  methods: {},
 }
 </script>

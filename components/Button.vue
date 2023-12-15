@@ -1,7 +1,7 @@
 <template>
   <button
     @click.prevent="$emit('handleClick')"
-    class="w-fit mx-auto p-2 rounded border-all dim-white-border flex-center gap-2 font-semibold"
+    class="w-fit mx-auto p-2 rounded border-all dim-white-border flex-center gap-2 font-semibold transition-all ease-in-out duration-2000"
     :class="{
       'success-gradient-hover': isSuccess,
       'danger-gradient-hover': isDanger,
@@ -10,7 +10,7 @@
     :style="`transform: scale(${scale / 100})`"
   >
     <!-- DEBUG: Fix the width and height of image -->
-    <img loading="lazy" :src="icon" alt="" width="16" height="16" />
+    <img v-if="icon" loading="lazy" :src="icon" alt="" width="16" height="16" />
     <span v-if="text">
       {{ text }}
     </span>

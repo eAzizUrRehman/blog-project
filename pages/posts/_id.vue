@@ -8,13 +8,19 @@
           text="Edit Post"
           :icon="require('@/assets/images/edit-icon.svg')"
           :isSuccess="true"
-          @handleClick="showUpdatePost = true"
+          @handleClick="openAddOrUpdateModal = true"
         />
         <Button
           text="Delete Post"
           :icon="require('@/assets/images/delete-icon.svg')"
           :isDanger="true"
-          @handleClick="deletePost"
+          @handleClick="openDeleteModal = true"
+        />
+        <DeleteModal
+          v-if="openDeleteModal"
+          text="Are you sure you want to delete this post?"
+          @handleDeleteConfirmed="deletePost(post.id)"
+          @handleDeleteCancelled="openDeleteModal = false"
         />
       </div>
       <h1
@@ -78,19 +84,17 @@
         </div>
       </div>
     </div>
-    <div
-      v-else
-      class="gradient rounded-3xl container-10x border-all dim-white-border px-4 py-10"
-    >
-      <PostDataCollector
-        headerText="Edit Post"
-        titlePlaceholder="Enter Post Updated Title..."
-        contentPlaceholder="Enter Post Updated Content..."
-        :updatedPostId="post.id"
-        :update="true"
-        @postUpdated="showUpdatePost = false"
-      />
-    </div>
+    <AddOrUpdateModal
+      v-if="openAddOrUpdateModal"
+      text="Edit Post"
+      titlePlaceholder="Enter Post Updated Title..."
+      contentPlaceholder="Enter Post Updated Content..."
+      :updatedPostId="post.id"
+      :update="true"
+      @handleAddOrUpdateCancelled="openAddOrUpdateModal = false"
+      @postAdded="openAddOrUpdateModal = false"
+      @postUpdated="openAddOrUpdateModal = false"
+    />
   </div>
 </template>
 <script>
@@ -105,10 +109,12 @@ export default {
   data() {
     return {
       post: null,
+      openDeleteModal: false,
       showUpdatePost: false,
       updatedCommentText: '',
       isInputDisabled: true,
       editingCommentId: null,
+      openAddOrUpdateModal: false,
     }
   },
   created() {
@@ -124,6 +130,7 @@ export default {
     },
     deletePost() {
       this.$store.commit('deletePost', this.post.id)
+      this.openDeleteModal = false
       this.$router.push('/')
     },
     showCommentDate(date) {
