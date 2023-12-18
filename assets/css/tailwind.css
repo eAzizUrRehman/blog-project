@@ -32,27 +32,13 @@
   .border-all {
     @apply border-[0.1px];
   }
+
   .border-y {
     @apply border-t-[0.1px] border-b-[0.1px];
   }
 
   .dim-white-border {
     @apply border-white border-opacity-20;
-  }
-}
-
-@layer utilities {
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply rounded-full bg-[#94a3b8];
-  }
-
-  ::-webkit-scrollbar-track:hover {
-    @apply bg-white;
   }
 
   .gradient {
@@ -77,5 +63,28 @@
 
   button:hover.danger-gradient-hover {
     @apply danger-gradient;
+  }
+
+  .success-toast {
+    @apply flex justify-center items-center px-4 success-gradient p-0 text-lg tracking-wide font-semibold !important;
+  }
+
+  .danger-toast {
+    @apply flex justify-center items-center px-4 danger-gradient p-0 text-lg tracking-wide font-semibold !important;
+  }
+}
+
+@layer utilities {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-[#94a3b8];
+  }
+
+  ::-webkit-scrollbar-track:hover {
+    @apply bg-white;
   }
 }

@@ -5,11 +5,11 @@ export default {
       (existingPost) => existingPost.title === post.title,
     )
     if (titleExists) {
-      this.$toast.error('A post with this title already exists')
+      this._vm.$toast.error('A post with this title already exists')
       return false
     } else {
       commit('addPost', post)
-      this.$toast.success('Post added successfully')
+      this._vm.$toast.success('Post added successfully')
       return true
     }
   },
@@ -22,13 +22,11 @@ export default {
         post.title === payload.updatedPost.title &&
         post.content === payload.updatedPost.content
       ) {
-        this.$toast.error('Kindly make changes to the post first')
+        this._vm.$toast.error('Kindly make changes to the post first')
         return false
       } else {
         commit('updatePost', payload)
-        this.$toast.success('Post updated successfully', {
-          className: 'success-gradient',
-        })
+        this._vm.$toast.success('Post updated successfully')
         return true
       }
     } else {
@@ -37,7 +35,7 @@ export default {
   },
   async updateComment({ commit, state }, payload) {
     if (!payload.postId || !payload.commentId || !payload.updatedComment) {
-      this.$toast.error('Something went wrong')
+      this._vm.$toast.error('Something went wrong')
       return false
     }
     const post = state.blog.posts.find((post) => post.id === payload.postId)
@@ -47,11 +45,11 @@ export default {
       )
       if (comment) {
         if (comment.text === payload.updatedComment.text) {
-          this.$toast.error('Kindly make changes to the comment first')
+          this._vm.$toast.error('Kindly make changes to the comment first')
           return false
         } else {
           commit('updateComment', payload)
-          this.$toast.success('Comment updated successfully')
+          this._vm.$toast.success('Comment updated successfully')
           return true
         }
       } else {

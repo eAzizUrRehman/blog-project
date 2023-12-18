@@ -1,9 +1,9 @@
 <template>
   <div
-    class="container-9x gradient py-10 rounded-xl border-all dim-white-border relative"
+    class="container-9x gradient py-10 rounded-xl border-all dim-white-border relative shadow-xl drop-shadow-xl"
   >
     <div
-      class="p-1 rounded w-8 h-8 border-all dim-white-border hover:danger-gradient absolute top-4 right-4 flex-center cursor-pointer"
+      class="p-1 rounded w-8 h-8 border-all dim-white-border hover:danger-gradient shadow-md drop-shadow-md absolute top-4 right-4 flex-center cursor-pointer"
     >
       <img
         src="@/assets/images/cross-icon.svg"
@@ -35,23 +35,23 @@
         />
       </div>
       <h1
-        class="flex-center font-bold text-3xl my-10 p-2 gradient w-full border-all dim-white-border rounded-xl"
+        class="flex-center font-bold text-3xl my-10 p-2 gradient w-full border-all dim-white-border shadow-lg rounded-xl"
       >
         {{ post.title }}
       </h1>
       <p
-        class="gradient rounded p-2 flex justify-center items-start border-all dim-white-border"
+        class="gradient rounded p-2 flex justify-center items-start border-all dim-white-border shadow-lg"
       >
         {{ post.content }}
       </p>
       <div
-        class="gradient mt-10 px-20 py-10 rounded-lg border-all dim-white-border"
+        class="gradient mt-10 px-20 py-10 rounded-lg border-all dim-white-border shadow-lg"
       >
         <p class="mb-4 font-semibold mx-auto w-fit text-lg">Comments</p>
         <AddComment :postId="this.post.id" />
         <div v-for="comment in post.comments" :key="comment.id">
           <div
-            class="gradient rounded mt-4 px-4 flex justify-between items-center gap-2 border-all dim-white-border"
+            class="gradient rounded mt-4 px-4 flex justify-between items-center gap-2 border-all dim-white-border shadow-lg"
           >
             <div class="relative my-2">
               <p class="text-[8px]">
@@ -69,7 +69,7 @@
                   v-model="updatedCommentText"
                   :ref="`updateCommentInput-${comment.id}`"
                   @keyup.enter="saveComment(comment.id)"
-                  class="gradient rounded border-all dim-white-border px-2 py-1 absolute top-0 left-0 w-full h-full"
+                  class="gradient rounded border-all dim-white-border shadow-lg px-2 py-1 absolute top-0 left-0 w-full h-full"
                 />
               </div>
             </div>

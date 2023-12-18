@@ -14,13 +14,18 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/logo.svg' }],
   },
   css: [],
-  plugins: [],
+  plugins: [{ src: '~/plugins/vue-toastification.js', ssr: false }],
   components: true,
   buildModules: ['@nuxtjs/tailwindcss'],
-  modules: ['@nuxtjs/toast'],
-  toast: {
-    position: 'top-center',
-    duration: 2000,
-  },
+  modules: [
+    'vue-toastification/nuxt',
+    [
+      'vue-toastification/nuxt',
+      {
+        timeout: 1500,
+        draggable: true,
+      },
+    ],
+  ],
   build: {},
 }

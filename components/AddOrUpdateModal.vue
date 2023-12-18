@@ -5,19 +5,19 @@
   >
     <div class="relative">
       <div
-        class="p-1 rounded w-6 h-6 border-all dim-white-border hover:danger-gradient absolute top-4 right-4 flex-center cursor-pointer"
+        class="p-1 rounded w-6 h-6 border-all dim-white-border hover:danger-gradient shadow-md drop-shadow-md absolute top-4 right-4 flex-center cursor-pointer"
       >
         <img
           src="@/assets/images/cross-icon.svg"
           alt=""
-          width="16"
-          height="16"
+          width="20"
+          height="20"
           @click="$emit('handleAddOrUpdateCancelled')"
         />
       </div>
 
       <div
-        class="gradient rounded-lg overflow-auto border-all dim-white-border"
+        class="gradient rounded-lg overflow-auto border-all dim-white-border shadow-lg drop-shadow-lg"
       >
         <div class="p-8">
           <form class="px-5 py-10">

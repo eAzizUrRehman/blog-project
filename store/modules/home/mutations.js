@@ -12,7 +12,7 @@ export default {
     const postIndex = state.blog.posts.findIndex((post) => post.id === postId)
     if (postIndex !== -1) {
       state.blog.posts.splice(postIndex, 1)
-      this.$toast.success('Post deleted successfully')
+      this._vm.$toast.success('Post deleted successfully')
     } else {
       throw new Error(`Post with ID ${postId} not found`)
     }
@@ -24,7 +24,7 @@ export default {
     }
     comment.id = Date.now()
     post.comments.push(comment)
-    this.$toast.success('Commment added successfully')
+    this._vm.$toast.success('Commment added successfully')
   },
   deleteComment(state, { postId, commentId }) {
     if (!postId || !commentId) {
@@ -39,7 +39,7 @@ export default {
     )
     if (commentIndex !== -1) {
       post.comments.splice(commentIndex, 1)
-      this.$toast.success('Comment deleted successfully')
+      this._vm.$toast.success('Comment deleted successfully')
     } else {
       throw new Error(`Comment with ID ${commentId} not found`)
     }
