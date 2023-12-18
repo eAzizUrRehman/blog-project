@@ -1,9 +1,9 @@
 <template>
   <div class="flex gap-2">
     <input
-      ref="commentInput"
       type="text"
-      v-model.lazy="comment.text"
+      v-model="comment.text"
+      @keyup.enter="addComment"
       class="gradient w-96 h-10 rounded border-all dim-white-border px-4 border-all dim-white-border"
       required
     />
@@ -17,6 +17,9 @@
 <script>
 import Button from '@/components/Button.vue'
 export default {
+  components: {
+    Button,
+  },
   props: {
     postId: {
       type: Number,
@@ -31,11 +34,9 @@ export default {
       submitted: false,
     }
   },
-  components: {
-    Button,
-  },
+
   methods: {
-    addComment: function () {
+    addComment() {
       if (!this.comment.text.trim()) {
         this.$toast.error('Comment cannot be empty')
         return
@@ -48,7 +49,7 @@ export default {
         postId: this.postId,
         comment: tempComment,
       })
-      this.$refs.commentInput.select()
+      this.comment.text = ''
     },
   },
 }

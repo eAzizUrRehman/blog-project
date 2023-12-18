@@ -1,7 +1,18 @@
 <template>
   <div
-    class="container-9x gradient py-10 rounded-xl border-all dim-white-border"
+    class="container-9x gradient py-10 rounded-xl border-all dim-white-border relative"
   >
+    <div
+      class="p-1 rounded w-8 h-8 border-all dim-white-border hover:danger-gradient absolute top-4 right-4 flex-center cursor-pointer"
+    >
+      <img
+        src="@/assets/images/cross-icon.svg"
+        alt=""
+        width="20"
+        height="20"
+        @click="$router.push('/')"
+      />
+    </div>
     <div class="container-8x" v-if="!showUpdatePost">
       <div class="flex">
         <Button
@@ -53,10 +64,11 @@
                   {{ comment.text }}
                 </p>
                 <input
-                  v-if="editingCommentId === comment.id"
-                  v-model.lazy="updatedCommentText"
-                  ref="updateCommentInput"
                   type="text"
+                  v-if="editingCommentId === comment.id"
+                  v-model="updatedCommentText"
+                  :ref="`updateCommentInput-${comment.id}`"
+                  @keyup.enter="saveComment(comment.id)"
                   class="gradient rounded border-all dim-white-border px-2 py-1 absolute top-0 left-0 w-full h-full"
                 />
               </div>
@@ -89,8 +101,10 @@
       text="Edit Post"
       titlePlaceholder="Enter Post Updated Title..."
       contentPlaceholder="Enter Post Updated Content..."
-      :updatedPostId="post.id"
+      :updatingPostId="post.id"
       :update="true"
+      :existingTitle="post.title"
+      :existingContent="post.content"
       @handleAddOrUpdateCancelled="openAddOrUpdateModal = false"
       @postAdded="openAddOrUpdateModal = false"
       @postUpdated="openAddOrUpdateModal = false"
@@ -100,8 +114,14 @@
 <script>
 import Button from '@/components/Button.vue'
 import AddComment from '@/components/AddComment.vue'
+import AddOrUpdateModal from '@/components/AddOrUpdateModal.vue'
 import { format, formatDistanceToNow, parseISO } from 'date-fns'
 export default {
+  components: {
+    Button,
+    AddComment,
+    AddOrUpdateModal,
+  },
   name: 'Post',
   asyncData({ params }) {
     return { id: params.id }
@@ -117,10 +137,17 @@ export default {
       openAddOrUpdateModal: false,
     }
   },
-  created() {
-    if (this.$route.query.showUpdatePost === 'true') {
-      this.showUpdatePost = true
-    }
+  watch: {
+    post: {
+      handler(newPost, oldPost) {
+        if (newPost !== oldPost) {
+          this.bringPostData()
+        }
+        this.bringPostData()
+      },
+      immediate: true,
+      deep: true,
+    },
   },
   methods: {
     bringPostData() {
@@ -150,14 +177,9 @@ export default {
     editComment(commentId, commentText) {
       this.editingCommentId = commentId
       this.updatedCommentText = commentText
-      // DEBUG: Check why input is not selected on edit
       this.$nextTick(() => {
-        if (
-          this.$refs.updateCommentInput &&
-          this.$refs.updateCommentInput.select
-        ) {
-          this.$refs.updateCommentInput.select()
-        }
+        this.$refs[`updateCommentInput-${commentId}`][0].focus()
+        this.$refs[`updateCommentInput-${commentId}`][0].select()
       })
     },
     deleteComment(commentId) {
@@ -176,6 +198,10 @@ export default {
         : comment.text
     },
     async saveComment(commentId) {
+      if (!this.updatedCommentText.trim()) {
+        this.$toast.error('Comment cannot be empty')
+        return
+      }
       const wasUpdated = await this.$store.dispatch('updateComment', {
         postId: this.post.id,
         commentId: commentId,
@@ -188,22 +214,6 @@ export default {
         this.editingCommentId = null
       }
     },
-  },
-  watch: {
-    post: {
-      handler(newPost, oldPost) {
-        if (newPost !== oldPost) {
-          this.bringPostData()
-        }
-        this.bringPostData()
-      },
-      immediate: true,
-      deep: true,
-    },
-  },
-  components: {
-    Button,
-    AddComment,
   },
 }
 </script>

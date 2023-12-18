@@ -41,23 +41,14 @@
 import Button from '@/components/Button.vue'
 import AddOrUpdateModal from '@/components/AddOrUpdateModal.vue'
 export default {
+  components: {
+    Button,
+    AddOrUpdateModal,
+  },
   data() {
     return {
       openAddOrUpdateModal: false,
     }
   },
-  computed: {
-    isAnyModalOpen() {
-      return this.$store.state.isAnyModalOpen
-    },
-    animatedTitle() {
-      return this.$store.state.animatedTitle
-    },
-  },
-  components: {
-    Button,
-    AddOrUpdateModal,
-  },
-  methods: {},
 }
 </script>

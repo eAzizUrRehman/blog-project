@@ -1,33 +1,10 @@
 export default {
-  openModal(state) {
-    state.isAnyModalOpen = true
-  },
-  closeModal(state) {
-    state.isAnyModalOpen = false
-  },
-  setAnimatedTitle(state, title) {
-    state.animatedTitle = title
-  },
-  // addPost(state, post) {
-  //   post.id = Date.now()
-  //   const titleExists = state.blog.posts.some(
-  //     (existingPost) => existingPost.title === post.title,
-  //   )
-  //   if (titleExists) {
-  //     this.$emit('titleExists')
-  //     this.$toast.error('A post with this title already exists')
-  //     return
-  //   } else {
-  //     state.blog.posts.push(post)
-  //     this.$toast.success('Post added successfully')
-  //   }
-  // },
   addPost(state, post) {
     state.blog.posts.push(post)
   },
   updatePost(state, payload) {
     const post = state.blog.posts.find(
-      (post) => post.id === payload.updatedPostId,
+      (post) => post.id === payload.updatingPostId,
     )
     Object.assign(post, payload.updatedPost)
   },

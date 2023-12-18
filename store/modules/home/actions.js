@@ -15,7 +15,7 @@ export default {
   },
   async updatePost({ commit, state }, payload) {
     const post = state.blog.posts.find(
-      (post) => post.id === payload.updatedPostId,
+      (post) => post.id === payload.updatingPostId,
     )
     if (post) {
       if (
@@ -32,7 +32,7 @@ export default {
         return true
       }
     } else {
-      throw new Error(`Post with ID ${payload.updatedPostId} not found`)
+      throw new Error(`Post with ID ${payload.updatingPostId} not found`)
     }
   },
   async updateComment({ commit, state }, payload) {
@@ -60,39 +60,5 @@ export default {
     } else {
       throw new Error(`Post with ID ${payload.postId} not found`)
     }
-  },
-  animateTitle({ commit, state }) {
-    let i = 0
-    let direction = 'forward'
-    const text = 'HiTech Blog - Tech Unleashed...!'
-    const animate = () => {
-      if (state.isAnyModalOpen) {
-        console.log('not animating')
-        return
-      }
-      // console.log(' animating')
-      let title = ''
-      if (direction === 'forward') {
-        if (i < text.length) {
-          title = text.substring(0, i + 1)
-          i++
-        } else {
-          direction = 'backward'
-          i--
-        }
-      } else if (direction === 'backward') {
-        if (i >= 0) {
-          title = text.substring(0, i)
-          i--
-        } else {
-          direction = 'forward'
-          i++
-        }
-      }
-      commit('setAnimatedTitle', title)
-      const speed = direction === 'forward' ? 200 : 25
-      setTimeout(animate, speed)
-    }
-    animate()
   },
 }

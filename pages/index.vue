@@ -19,19 +19,23 @@
                 ({{ postAge(post.date) }})
               </p>
               <div class="flex gap-2">
-                <!-- DEBUG: fix edit button not working -->
                 <Button
                   :icon="require('@/assets/images/edit-icon.svg')"
                   :isSuccess="true"
-                  @handleClick="
-                    $router.push({
-                      name: 'posts-id',
-                      params: { id: post.id },
-                      query: { showUpdatePost: 'true' },
-                    })
-                  "
+                  @handleClick="openUpdateModal = true"
                 />
-                <!-- DEBUG: check why on second time, animateTitle is dispatched 4 to 5 times when delete is clicked -->
+                <AddOrUpdateModal
+                  v-if="openUpdateModal"
+                  text="Edit Post"
+                  titlePlaceholder="Enter Post Updated Title..."
+                  contentPlaceholder="Enter Post Updated Content..."
+                  :updatingPostId="post.id"
+                  :update="true"
+                  :existingTitle="post.title"
+                  :existingContent="post.content"
+                  @handleAddOrUpdateCancelled="openUpdateModal = false"
+                  @postUpdated="openUpdateModal = false"
+                />
                 <Button
                   :icon="require('@/assets/images/delete-icon.svg')"
                   :isDanger="true"
@@ -40,8 +44,14 @@
                 <DeleteModal
                   v-if="openDeleteModal"
                   text="Are you sure you want to delete this post?"
-                  @handleDeleteConfirmed="handleDeletePost(post.id)"
-                  @handleDeleteCancelled="openDeleteModal = false"
+                  @handleDeleteConfirmed="
+                    handleDeletePost(post.id)
+                    animateTitle()
+                  "
+                  @handleDeleteCancelled="
+                    openDeleteModal = false
+                    animateTitle()
+                  "
                 />
               </div>
             </div>
@@ -65,12 +75,12 @@
           text="Add Post"
           :icon="require('@/assets/images/add-icon.svg')"
           :isSuccess="true"
-          @handleClick="openAddOrUpdateModal = true"
+          @handleClick="openAddModal = true"
         />
         <AddOrUpdateModal
-          v-if="openAddOrUpdateModal"
-          @handleAddOrUpdateCancelled="openAddOrUpdateModal = false"
-          @postAdded="openAddOrUpdateModal = false"
+          v-if="openAddModal"
+          @handleAddOrUpdateCancelled="openAddModal = false"
+          @postAdded="openAddModal = false"
         />
       </div>
     </div>
@@ -89,23 +99,23 @@ export default {
     return {
       openDeleteModal: false,
       deleteConfirmed: false,
-      openAddOrUpdateModal: false,
+      openAddModal: false,
+      openUpdateModal: false,
+      animatedTitle: '',
+      intervalId: null,
     }
   },
   computed: {
     posts() {
       return this.$store.state.blog.posts
     },
-    animatedTitle() {
-      return this.$store.state.animatedTitle
+  },
+  watch: {
+    posts(newPosts) {
+      if (newPosts.length === 0) {
+        this.openAddModal = false
+      }
     },
-  },
-  mounted() {
-    this.$store.commit('closeModal')
-    this.$store.dispatch('animateTitle')
-  },
-  beforeDestroy() {
-    this.$store.commit('openModal')
   },
   methods: {
     showPostDate(date) {
@@ -133,6 +143,42 @@ export default {
       this.$store.commit('deletePost', id)
       this.openDeleteModal = false
     },
+    animateTitle() {
+      let i = 0
+      let direction = 'forward'
+      const text = 'HiTech Blog - Tech Unleashed...!'
+      const animate = () => {
+        if (this.openDeleteModal) {
+          console.log('not animating')
+          return
+        }
+        if (direction === 'forward') {
+          if (i < text.length) {
+            this.animatedTitle = text.substring(0, i + 1)
+            i++
+          } else {
+            direction = 'backward'
+            i--
+          }
+        } else if (direction === 'backward') {
+          if (i >= 0) {
+            this.animatedTitle = text.substring(0, i)
+            i--
+          } else {
+            direction = 'forward'
+            i++
+          }
+        }
+        const speed = direction === 'forward' ? 200 : 25
+        setTimeout(animate, speed)
+      }
+      if (!this.openDeleteModal) {
+        animate()
+      }
+    },
+  },
+  mounted() {
+    this.animateTitle()
   },
 }
 </script>

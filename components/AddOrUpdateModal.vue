@@ -1,16 +1,21 @@
 <template>
   <div
     class="fixed inset-0 bg-opacity-5 backdrop-blur-md flex items-center justify-center z-50"
+    @click.self="$emit('handleAddOrUpdateCancelled')"
   >
     <div class="relative">
-      <img
-        src="@/assets/images/cross-icon.svg"
-        alt=""
-        width="16"
-        height="16"
-        class="absolute top-4 right-4 cursor-pointer"
-        @click="$emit('handleAddOrUpdateCancelled')"
-      />
+      <div
+        class="p-1 rounded w-6 h-6 border-all dim-white-border hover:danger-gradient absolute top-4 right-4 flex-center cursor-pointer"
+      >
+        <img
+          src="@/assets/images/cross-icon.svg"
+          alt=""
+          width="16"
+          height="16"
+          @click="$emit('handleAddOrUpdateCancelled')"
+        />
+      </div>
+
       <div
         class="gradient rounded-lg overflow-auto border-all dim-white-border"
       >
@@ -25,8 +30,13 @@
                 <input
                   ref="titleInput"
                   type="text"
-                  v-model.lazy="post.title"
+                  v-model="post.title"
                   :placeholder="titlePlaceholder"
+                  @keyup.enter="
+                    if (post.title.trim() && existingTitle !== post.title) {
+                      $refs.contentTextarea.focus()
+                    }
+                  "
                   class="gradient w-96 h-10 rounded border-all dim-white-border px-4"
                   required
                 />
@@ -34,7 +44,7 @@
               <div class="flex justify-between items-start gap-4">
                 <textarea
                   ref="contentTextarea"
-                  v-model.lazy="post.content"
+                  v-model="post.content"
                   :placeholder="contentPlaceholder"
                   class="gradient w-96 h-40 rounded border-all dim-white-border p-4"
                 ></textarea>
@@ -47,7 +57,7 @@
                     : require('@/assets/images/add-icon.svg')
                 "
                 :isSuccess="true"
-                @handleClick="handleClick"
+                @handleClick="handleClicked"
               />
             </div>
           </form>
@@ -60,6 +70,9 @@
 <script>
 import Button from '@/components/Button.vue'
 export default {
+  components: {
+    Button,
+  },
   props: {
     text: {
       type: String,
@@ -76,32 +89,35 @@ export default {
     update: {
       type: Boolean,
     },
-    updatedPostId: {
+    updatingPostId: {
       type: Number,
     },
+    existingTitle: {
+      type: String,
+    },
+    existingContent: {
+      type: String,
+    },
   },
-  components: {
-    Button,
-  },
+
   data() {
     return {
       post: {
-        id: 1,
-        title: '',
-        content: '',
+        title: this.existingTitle || '',
+        content: this.existingContent || '',
       },
     }
   },
 
   methods: {
-    async handleClick() {
-      console.log('handleClick runs')
+    async handleClicked() {
+      console.log('handleClicked runs')
       if (!this.post.title.trim()) {
         this.$toast.error('Title cannot be empty')
         return
       }
       if (!this.post.content.trim()) {
-        this.$toast.error('Content cannot be empty')
+        this.$toast.error('Kindly add content too')
         return
       }
       const tempPost = {
@@ -112,7 +128,7 @@ export default {
       }
       if (this.update) {
         const wasUpdated = await this.$store.dispatch('updatePost', {
-          updatedPostId: this.updatedPostId,
+          updatingPostId: this.updatingPostId,
           updatedPost: tempPost,
         })
         if (wasUpdated) {
@@ -131,13 +147,13 @@ export default {
     document.body.classList.add('overflow-hidden')
     this.$nextTick(() => {
       this.$refs.titleInput.focus()
+      if (this.update) {
+        this.$refs.titleInput.select()
+      }
     })
-    this.$store.commit('openModal')
   },
   beforeDestroy() {
     document.body.classList.remove('overflow-hidden')
-    this.$store.commit('closeModal')
-    this.$store.dispatch('animateTitle')
   },
 }
 </script>
