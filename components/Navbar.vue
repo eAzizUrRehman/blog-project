@@ -1,18 +1,20 @@
 <template>
-  <header class="w-full py-4 xxs:py-5 xs:py-6 sm:py-8 md:py-10">
-    <div class="gradient w-full py-4 dim-white-border border-y">
+  <header class="xxs:py-5 xs:py-6 w-full py-4 sm:py-8 md:py-10">
+    <div class="gradient dim-white-border w-full border-y py-4 shadow-xl">
       <div
         class="container-10x mx-auto flex w-full items-center justify-between"
       >
         <NuxtLink to="/">
-          <div class="flex gap-2">
+          <div class="flex gap-1">
             <img
               loading="lazy"
               src="/logo.svg"
               alt="logo"
-              class="hover:opacity-70 w-10 shadow-md"
+              class="w-10 shadow-md hover:opacity-70"
             />
-            <h3 class="min-h-full my-auto font-semibold">HiTech Blog</h3>
+            <h3 class="my-auto w-16 overflow-auto px-1 font-semibold">
+              HiTech Blog
+            </h3>
           </div>
         </NuxtLink>
         <div class="flex gap-4">

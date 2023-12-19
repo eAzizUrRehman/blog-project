@@ -1,18 +1,20 @@
 <template>
   <div class="container-10x pb-20">
     <p
-      class="container-10x mx-auto w-fit py-1 text-xs font-semibold transition-all duration-300 ease-in-out xxs:py-1.5 xxs:text-sm xs:py-2 xs:text-base sm:py-3 sm:text-lg md:py-4 md:text-xl lg:py-6 lg:text-2xl"
+      class="container-10x xxs:py-1.5 xxs:text-sm xs:py-2 xs:text-base mx-auto w-fit py-1 text-xs font-semibold transition-all duration-300 ease-in-out sm:py-3 sm:text-lg md:py-4 md:text-xl lg:py-6 lg:text-2xl"
     >
       {{ animatedTitle || '&nbsp;' }}
     </p>
-    <div class="gradient px-5 py-10 rounded-2xl border-all dim-white-border">
-      <h2 class="mx-auto w-fit font-bold text-3xl">Posts</h2>
+    <div
+      class="gradient border-all dim-white-border rounded-2xl px-5 py-10 shadow-xl"
+    >
+      <h2 class="mx-auto w-fit text-3xl font-bold">Posts</h2>
       <div v-if="posts.length > 0">
         <div v-for="post in posts" :key="post.id">
           <div
-            class="gradient mt-10 border-all dim-white-border rounded-lg py-5 px-10"
+            class="gradient border-all dim-white-border mt-10 rounded-lg px-10 py-5 shadow-lg"
           >
-            <div class="flex justify-between items-center">
+            <div class="flex items-center justify-between">
               <p class="text-xs font-semibold">
                 {{ showPostDate(post.date) }}
                 {{ showPostTime(post.date) }}
@@ -59,10 +61,12 @@
               :to="`/posts/${post.id}`"
               class="cursor-pointer hover:opacity-80"
             >
-              <h2 class="text-center mb-5 font-semibold text-lg">
+              <h2
+                class="my-5 overflow-hidden text-ellipsis text-center text-lg font-semibold"
+              >
                 {{ post.title }}
               </h2>
-              <p class=" ">{{ post.content }}</p>
+              <p class="overflow-hidden text-ellipsis">{{ post.content }}</p>
             </NuxtLink>
           </div>
         </div>

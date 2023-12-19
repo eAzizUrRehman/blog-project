@@ -1,7 +1,7 @@
 <template>
-  <div class="pt-10 pb-20">
-    <div class="bg-white bg-opacity-20 h-[0.1px] w-full"></div>
-    <p class="mx-auto text-center mt-5 text-xs">
+  <div class="pb-20 pt-10">
+    <div class="h-[0.1px] w-full bg-white bg-opacity-20"></div>
+    <p class="mx-auto mt-5 text-center text-xs">
       &copy; Aziz Ur Rehman, all rights reserved.
     </p>
   </div>

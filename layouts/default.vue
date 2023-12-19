@@ -1,5 +1,5 @@
 <template>
-  <div class="gradient w-full text-white text-shadow-default min-h-screen">
+  <div class="gradient text-shadow-default min-h-screen w-full text-white">
     <Navbar />
     <main class="py-10">
       <nuxt />

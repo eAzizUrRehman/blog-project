@@ -4,7 +4,7 @@
       type="text"
       v-model="comment.text"
       @keyup.enter="addComment"
-      class="gradient w-96 h-10 rounded border-all dim-white-border px-4 border-all dim-white-border"
+      class="gradient border-all dim-white-border border-all h-10 w-96 rounded px-4 shadow-md outline-none focus:border-white focus:border-opacity-50"
       required
     />
     <Button
@@ -34,7 +34,6 @@ export default {
       submitted: false,
     }
   },
-
   methods: {
     addComment() {
       if (!this.comment.text.trim()) {

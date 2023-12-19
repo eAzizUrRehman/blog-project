@@ -1,7 +1,7 @@
 <template>
   <button
     @click.prevent="$emit('handleClick')"
-    class="w-fit mx-auto p-2 rounded border-all dim-white-border flex-center gap-2 font-semibold transition-all ease-in-out duration-2000 shadow-md drop-shadow-md hover:shadow-lg"
+    class="border-all dim-white-border flex-center duration-2000 min-w-10 min-h-10 mx-auto w-fit gap-2 rounded p-2 font-semibold shadow-md outline-none transition-all ease-in-out hover:shadow-lg"
     :class="{
       'success-gradient-hover': isSuccess,
       'danger-gradient-hover': isDanger,

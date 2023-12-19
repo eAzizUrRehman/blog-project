@@ -1,22 +1,17 @@
 <template>
   <div
-    class="fixed inset-0 bg-opacity-5 backdrop-blur-md flex items-center justify-center z-50"
-    @click.self="$emit('handleDeleteCancelled')"
+    class="flex-center fixed inset-0 z-40 h-screen w-screen bg-opacity-5 backdrop-blur-md"
   >
     <div class="relative">
+      <Button
+        :icon="require('@/assets/images/cross-icon.svg')"
+        :isDanger="true"
+        scale="75"
+        @handleClick="$emit('handleDeleteCancelled')"
+        class="absolute right-4 top-4"
+      />
       <div
-        class="p-1 rounded w-6 h-6 border-all dim-white-border hover:danger-gradient absolute top-4 right-4 flex-center cursor-pointer"
-      >
-        <img
-          src="@/assets/images/cross-icon.svg"
-          alt=""
-          width="16"
-          height="16"
-          @click="$emit('handleDeleteCancelled')"
-        />
-      </div>
-      <div
-        class="px-20 py-10 flex-center flex-col gap-10 rounded-2xl gradient border-all dim-white-border"
+        class="flex-center gradient border-all dim-white-border z-50 flex-col gap-10 rounded-2xl px-20 py-10 shadow-xl"
       >
         <p class="text-xl font-semibold">
           {{ text }}
@@ -38,6 +33,7 @@
   </div>
 </template>
 <script>
+import Button from '~/components/Button.vue'
 export default {
   props: {
     text: {
@@ -45,11 +41,14 @@ export default {
       required: true,
     },
   },
+  components: {
+    Button,
+  },
   mounted() {
-    document.body.classList.add('overflow-hidden')
+    // document.body.classList.add('overflow-hidden')
   },
   beforeDestroy() {
-    document.body.classList.remove('overflow-hidden')
+    // document.body.classList.remove('overflow-hidden')
   },
 }
 </script>

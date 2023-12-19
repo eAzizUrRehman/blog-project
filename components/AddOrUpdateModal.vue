@@ -1,31 +1,25 @@
 <template>
   <div
-    class="fixed inset-0 bg-opacity-5 backdrop-blur-md flex items-center justify-center z-50"
+    class="fixed inset-0 z-40 flex items-center justify-center bg-opacity-5 backdrop-blur-md"
     @click.self="$emit('handleAddOrUpdateCancelled')"
   >
     <div class="relative">
+      <Button
+        :icon="require('@/assets/images/cross-icon.svg')"
+        :isDanger="true"
+        class="absolute right-4 top-4 z-50"
+        @handleClick="$emit('handleAddOrUpdateCancelled')"
+      />
       <div
-        class="p-1 rounded w-6 h-6 border-all dim-white-border hover:danger-gradient shadow-md drop-shadow-md absolute top-4 right-4 flex-center cursor-pointer"
-      >
-        <img
-          src="@/assets/images/cross-icon.svg"
-          alt=""
-          width="20"
-          height="20"
-          @click="$emit('handleAddOrUpdateCancelled')"
-        />
-      </div>
-
-      <div
-        class="gradient rounded-lg overflow-auto border-all dim-white-border shadow-lg drop-shadow-lg"
+        class="gradient border-all dim-white-border overflow-auto rounded-lg shadow-lg"
       >
         <div class="p-8">
           <form class="px-5 py-10">
-            <h2 class="mx-auto w-fit mb-10 font-bold text-3xl">
+            <h2 class="mx-auto mb-10 w-fit text-3xl font-bold">
               {{ text }}
             </h2>
-            <div class="w-fit mx-auto flex flex-col gap-10">
-              <div class="flex justify-between items-start gap-4">
+            <div class="mx-auto flex w-fit flex-col gap-10">
+              <div class="flex items-start justify-between gap-4">
                 <!-- DEBUG: check why at enter, handleClick is called -->
                 <input
                   ref="titleInput"
@@ -37,16 +31,16 @@
                       $refs.contentTextarea.focus()
                     }
                   "
-                  class="gradient w-96 h-10 rounded border-all dim-white-border px-4"
+                  class="gradient border-all dim-white-border h-10 w-96 rounded px-4 shadow-md outline-none focus:border-white focus:border-opacity-50"
                   required
                 />
               </div>
-              <div class="flex justify-between items-start gap-4">
+              <div class="flex items-start justify-between gap-4">
                 <textarea
                   ref="contentTextarea"
                   v-model="post.content"
                   :placeholder="contentPlaceholder"
-                  class="gradient w-96 h-40 rounded border-all dim-white-border p-4"
+                  class="gradient border-all dim-white-border h-40 w-96 rounded p-4 shadow-lg outline-none focus:border-white focus:border-opacity-50"
                 ></textarea>
               </div>
               <Button

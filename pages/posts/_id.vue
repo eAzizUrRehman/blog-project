@@ -1,96 +1,88 @@
 <template>
-  <div
-    class="container-9x gradient py-10 rounded-xl border-all dim-white-border relative shadow-xl drop-shadow-xl"
-  >
+  <div>
     <div
-      class="p-1 rounded w-8 h-8 border-all dim-white-border hover:danger-gradient shadow-md drop-shadow-md absolute top-4 right-4 flex-center cursor-pointer"
+      class="container-9x gradient border-all dim-white-border relative rounded-xl py-10 shadow-xl"
     >
-      <img
-        src="@/assets/images/cross-icon.svg"
-        alt=""
-        width="20"
-        height="20"
-        @click="$router.push('/')"
+      <Button
+        :icon="require('@/assets/images/cross-icon.svg')"
+        :isDanger="true"
+        @handleClick="$router.push('/')"
+        class="absolute right-4 top-4"
       />
-    </div>
-    <div class="container-8x" v-if="!showUpdatePost">
-      <div class="flex">
-        <Button
-          text="Edit Post"
-          :icon="require('@/assets/images/edit-icon.svg')"
-          :isSuccess="true"
-          @handleClick="openAddOrUpdateModal = true"
-        />
-        <Button
-          text="Delete Post"
-          :icon="require('@/assets/images/delete-icon.svg')"
-          :isDanger="true"
-          @handleClick="openDeleteModal = true"
-        />
-        <DeleteModal
-          v-if="openDeleteModal"
-          text="Are you sure you want to delete this post?"
-          @handleDeleteConfirmed="deletePost(post.id)"
-          @handleDeleteCancelled="openDeleteModal = false"
-        />
-      </div>
-      <h1
-        class="flex-center font-bold text-3xl my-10 p-2 gradient w-full border-all dim-white-border shadow-lg rounded-xl"
-      >
-        {{ post.title }}
-      </h1>
-      <p
-        class="gradient rounded p-2 flex justify-center items-start border-all dim-white-border shadow-lg"
-      >
-        {{ post.content }}
-      </p>
-      <div
-        class="gradient mt-10 px-20 py-10 rounded-lg border-all dim-white-border shadow-lg"
-      >
-        <p class="mb-4 font-semibold mx-auto w-fit text-lg">Comments</p>
-        <AddComment :postId="this.post.id" />
-        <div v-for="comment in post.comments" :key="comment.id">
-          <div
-            class="gradient rounded mt-4 px-4 flex justify-between items-center gap-2 border-all dim-white-border shadow-lg"
-          >
-            <div class="relative my-2">
-              <p class="text-[8px]">
-                <span> {{ showCommentDate(comment.date) }} </span>
-                <span> {{ showCommentTime(comment.date) }} </span>
-                <span> ({{ commentAge(comment.date) }}) </span>
-              </p>
-              <div>
-                <p class="max-w-2 font-semibold">
-                  {{ comment.text }}
+      <div class="container-8x" v-if="!showUpdatePost">
+        <div class="flex">
+          <Button
+            text="Edit Post"
+            :icon="require('@/assets/images/edit-icon.svg')"
+            :isSuccess="true"
+            @handleClick="openAddOrUpdateModal = true"
+          />
+          <Button
+            text="Delete Post"
+            :icon="require('@/assets/images/delete-icon.svg')"
+            :isDanger="true"
+            @handleClick="openDeleteModal = true"
+          />
+        </div>
+        <h1
+          class="gradient border-all dim-white-border my-10 w-full overflow-auto break-words rounded-xl p-2 text-3xl font-bold shadow-lg"
+        >
+          {{ post.title }}
+        </h1>
+        <p
+          class="gradient border-all dim-white-border overflow-auto break-words rounded p-2 shadow-lg"
+        >
+          {{ post.content }}
+        </p>
+        <div
+          class="gradient border-all dim-white-border mt-10 rounded-lg px-10 py-5 shadow-lg"
+        >
+          <p class="mx-auto mb-4 w-fit text-lg font-semibold">Comments</p>
+          <AddComment :postId="this.post.id" />
+          <div v-for="comment in post.comments" :key="comment.id">
+            <div
+              class="gradient border-all dim-white-border mt-4 flex w-full items-center justify-between gap-2 rounded px-2 py-1 shadow-lg"
+            >
+              <div class="relative my-2" v-if="editingCommentId !== comment.id">
+                <p class="text-[8px]">
+                  <span> {{ showCommentDate(comment.date) }} </span>
+                  <span> {{ showCommentTime(comment.date) }} </span>
+                  <span> ({{ commentAge(comment.date) }}) </span>
                 </p>
-                <input
-                  type="text"
-                  v-if="editingCommentId === comment.id"
-                  v-model="updatedCommentText"
-                  :ref="`updateCommentInput-${comment.id}`"
-                  @keyup.enter="saveComment(comment.id)"
-                  class="gradient rounded border-all dim-white-border shadow-lg px-2 py-1 absolute top-0 left-0 w-full h-full"
+                <div>
+                  <p class="max-w-2 overflow-auto break-words font-semibold">
+                    {{ comment.text }}
+                  </p>
+                </div>
+              </div>
+              <input
+                v-else
+                type="text"
+                v-model="updatedCommentText"
+                :ref="`updateCommentInput-${comment.id}`"
+                @keyup.enter="saveComment(comment.id)"
+                class="gradient border-all dim-white-border z-50 rounded px-2 py-1 shadow-lg outline-none focus:border-white focus:border-opacity-50"
+              />
+              <div class="flex-center h-full gap-2">
+                <Button
+                  v-if="editingCommentId !== comment.id"
+                  :icon="require('@/assets/images/edit-icon.svg')"
+                  :isSuccess="true"
+                  @handleClick="editComment(comment.id, comment.text)"
+                />
+                <Button
+                  v-else
+                  :icon="require('@/assets/images/update-icon.svg')"
+                  :isSuccess="true"
+                  @handleClick="saveComment(comment.id)"
+                  class="z-50"
+                />
+                <Button
+                  :icon="require('@/assets/images/delete-icon.svg')"
+                  :isDanger="true"
+                  @handleClick="deleteComment(comment.id)"
                 />
               </div>
-            </div>
-            <div class="flex-center gap-2 h-full">
-              <Button
-                v-if="editingCommentId !== comment.id"
-                :icon="require('@/assets/images/edit-icon.svg')"
-                :isSuccess="true"
-                @handleClick="editComment(comment.id, comment.text)"
-              />
-              <Button
-                v-else
-                :icon="require('@/assets/images/update-icon.svg')"
-                :isSuccess="true"
-                @handleClick="saveComment(comment.id)"
-              />
-              <Button
-                :icon="require('@/assets/images/delete-icon.svg')"
-                :isDanger="true"
-                @handleClick="deleteComment(comment.id)"
-              />
             </div>
           </div>
         </div>
@@ -108,6 +100,13 @@
       @handleAddOrUpdateCancelled="openAddOrUpdateModal = false"
       @postAdded="openAddOrUpdateModal = false"
       @postUpdated="openAddOrUpdateModal = false"
+    />
+    <DeleteModal
+      v-if="openDeleteModal"
+      text="Are you sure you want to delete this post?"
+      @handleDeleteConfirmed="deletePost(post.id)"
+      @handleDeleteCancelled="openDeleteModal = false"
+      class="fixed inset-0 flex items-center justify-center"
     />
   </div>
 </template>
