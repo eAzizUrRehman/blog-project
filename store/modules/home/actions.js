@@ -9,7 +9,7 @@ export default {
       return false
     } else {
       commit('addPost', post)
-      this._vm.$toast.success('Post added successfully')
+      app.$toast.success(app.i18n.t('toasts.post.added'))
       return true
     }
   },

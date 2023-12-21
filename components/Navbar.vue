@@ -12,19 +12,25 @@
               alt="logo"
               class="w-10 shadow-md hover:opacity-70"
             />
-            <h3 class="my-auto w-16 overflow-auto px-1 font-semibold">
-              HiTech Blog
+            <h3 class="my-auto w-20 overflow-auto px-1 font-semibold">
+              {{ $i18n.t('title') }}
             </h3>
           </div>
         </NuxtLink>
+        <NuxtLink
+          v-for="locale in availableLocales"
+          :key="locale.code"
+          :to="switchLocalePath(locale.code)"
+          >{{ locale.name }}</NuxtLink
+        >
         <div class="flex gap-4">
           <Button
-            text="Show Posts"
+            :text="$t('posts.show_posts')"
             :icon="require('@/assets/images/posts-icon.svg')"
             @handleClick="$router.push('/')"
           />
           <Button
-            text="Add Post"
+            :text="$t('posts.add_post')"
             :icon="require('@/assets/images/add-icon.svg')"
             :isSuccess="true"
             @handleClick="openAddOrUpdateModal = true"
@@ -42,6 +48,7 @@
 <script>
 import Button from '@/components/Button.vue'
 import AddOrUpdateModal from '@/components/AddOrUpdateModal.vue'
+
 export default {
   components: {
     Button,
@@ -51,6 +58,24 @@ export default {
     return {
       openAddOrUpdateModal: false,
     }
+  },
+  computed: {
+    locale() {
+      return this.$i18n.locale
+    },
+    locales() {
+      return this.$i18n.locales
+    },
+    availableLocales() {
+      if (this.locales && Array.isArray(this.locales)) {
+        const availableLocales = this.locales.filter(
+          (i) => i.code !== this.locale,
+        )
+        console.log('availableLocales:', availableLocales)
+        return availableLocales
+      }
+      return []
+    },
   },
 }
 </script>

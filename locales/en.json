@@ -1,0 +1,44 @@
+{
+  "welcome": "Welcome",
+  "title": "HiTech Blog",
+  "tagline": "HiTech Blog - Tech Unleashed...!",
+  "posts": {
+    "title": "Posts",
+    "no_post": "No post to show. Kindly add one first.",
+    "add_post": "Add Post",
+    "edit_post": "Edit Post",
+    "delete_post": "Delete Post",
+    "show_posts": "Show Posts",
+    "add_new_post": "Add a New Post",
+    "confirm_delete_post": "Are you sure you want to delete this post?",
+    "comments": "Comments"
+  },
+  "placeholders": {
+    "title": "Enter Post Title...",
+    "content": "Enter Post Content...",
+    "updated_title": "Enter the Post Updated Title...",
+    "updated_content": "Enter the Post Updated Content..."
+  },
+  "buttons": {
+    "update": "Update",
+    "submit": "Submit",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "toasts": {
+    "post": {
+      "added": "Post Added Successfully.",
+      "updated": "Post Updated Successfully.",
+      "deleted": "Post Deleted Successfully."
+    },
+    "comment": {
+      "added": "Comment Added Successfully.",
+      "updated": "Comment Updated Successfully.",
+      "deleted": "Comment Deleted Successfully."
+    },
+    "input": {
+      "title_empty": "Title cannot be empty"
+    }
+  },
+  "copyright": "Aziz Ur Rehman, all rights reserved."
+}

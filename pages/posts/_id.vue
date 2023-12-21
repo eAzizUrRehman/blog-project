@@ -12,13 +12,13 @@
       <div class="container-8x" v-if="!showUpdatePost">
         <div class="flex">
           <Button
-            text="Edit Post"
+            :text="$t('posts.edit_post')"
             :icon="require('@/assets/images/edit-icon.svg')"
             :isSuccess="true"
             @handleClick="openAddOrUpdateModal = true"
           />
           <Button
-            text="Delete Post"
+            :text="$t('posts.delete_post')"
             :icon="require('@/assets/images/delete-icon.svg')"
             :isDanger="true"
             @handleClick="openDeleteModal = true"
@@ -37,7 +37,9 @@
         <div
           class="gradient border-all dim-white-border mt-10 rounded-lg px-10 py-5 shadow-lg"
         >
-          <p class="mx-auto mb-4 w-fit text-lg font-semibold">Comments</p>
+          <p class="mx-auto mb-4 w-fit text-lg font-semibold">
+            {{ $t('posts.comments') }}
+          </p>
           <AddComment :postId="this.post.id" />
           <div v-for="comment in post.comments" :key="comment.id">
             <div
@@ -90,9 +92,9 @@
     </div>
     <AddOrUpdateModal
       v-if="openAddOrUpdateModal"
-      text="Edit Post"
-      titlePlaceholder="Enter Post Updated Title..."
-      contentPlaceholder="Enter Post Updated Content..."
+      :text="$t('posts.edit_post')"
+      :titlePlaceholder="$t('placeholders.updated_title')"
+      :contentPlaceholder="$t('placeholders.updated_content')"
       :updatingPostId="post.id"
       :update="true"
       :existingTitle="post.title"
@@ -103,7 +105,7 @@
     />
     <DeleteModal
       v-if="openDeleteModal"
-      text="Are you sure you want to delete this post?"
+      :text="$t('posts.confirm_delete_post')"
       @handleDeleteConfirmed="deletePost(post.id)"
       @handleDeleteCancelled="openDeleteModal = false"
       class="fixed inset-0 flex items-center justify-center"
@@ -116,6 +118,7 @@ import AddComment from '@/components/AddComment.vue'
 import AddOrUpdateModal from '@/components/AddOrUpdateModal.vue'
 import { format, formatDistanceToNow, parseISO } from 'date-fns'
 export default {
+  middleware: 'auth',
   components: {
     Button,
     AddComment,

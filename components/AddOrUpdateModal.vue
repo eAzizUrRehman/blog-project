@@ -44,7 +44,7 @@
                 ></textarea>
               </div>
               <Button
-                :text="update ? 'Update' : 'Submit'"
+                :text="update ? $t('buttons.update') : $t('buttons.submit')"
                 :icon="
                   update
                     ? require('@/assets/images/update-icon.svg')
@@ -70,15 +70,21 @@ export default {
   props: {
     text: {
       type: String,
-      default: 'Add a New Post',
+      default() {
+        return this.$i18n.t('posts.add_new_post')
+      },
     },
     titlePlaceholder: {
       type: String,
-      default: 'Enter Post Title...',
+      default() {
+        return this.$i18n.t('placeholders.title')
+      },
     },
     contentPlaceholder: {
       type: String,
-      default: 'Enter Post Content...',
+      default() {
+        return this.$i18n.t('placeholders.content')
+      },
     },
     update: {
       type: Boolean,
@@ -107,7 +113,7 @@ export default {
     async handleClicked() {
       console.log('handleClicked runs')
       if (!this.post.title.trim()) {
-        this.$toast.error('Title cannot be empty')
+        this.$toast.error(this.$t('toasts.input.title_empty'))
         return
       }
       if (!this.post.content.trim()) {

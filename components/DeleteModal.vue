@@ -6,24 +6,25 @@
       <Button
         :icon="require('@/assets/images/cross-icon.svg')"
         :isDanger="true"
-        scale="75"
+        :scale="75"
         @handleClick="$emit('handleDeleteCancelled')"
         class="absolute right-4 top-4"
       />
       <div
-        class="flex-center gradient border-all dim-white-border z-50 flex-col gap-10 rounded-2xl px-20 py-10 shadow-xl"
+        class="flex-center gradient border-all dim-white-border z-50 flex-col rounded-2xl px-20 py-10 shadow-xl"
       >
-        <p class="text-xl font-semibold">
-          {{ text }}
+        <p class="text-3xl">⚠️</p>
+        <p class="mt-2 text-xl font-semibold">
+          {{ $t('posts.confirm_delete_post') }}
         </p>
-        <div class="flex gap-4">
+        <div class="mt-10 flex gap-4">
           <Button
-            text="No"
+            :text="$t('buttons.no')"
             :isSuccess="true"
             @handleClick="$emit('handleDeleteCancelled')"
           />
           <Button
-            text="Yes"
+            :text="$t('buttons.yes')"
             :isDanger="true"
             @handleClick="$emit('handleDeleteConfirmed')"
           />

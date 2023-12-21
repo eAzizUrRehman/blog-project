@@ -8,7 +8,7 @@
     <div
       class="gradient border-all dim-white-border rounded-2xl px-5 py-10 shadow-xl"
     >
-      <h2 class="mx-auto w-fit text-3xl font-bold">Posts</h2>
+      <h2 class="mx-auto w-fit text-3xl font-bold" v-t="'posts.title'"></h2>
       <div v-if="posts.length > 0">
         <div v-for="post in posts" :key="post.id">
           <div
@@ -28,9 +28,9 @@
                 />
                 <AddOrUpdateModal
                   v-if="openUpdateModal"
-                  text="Edit Post"
-                  titlePlaceholder="Enter Post Updated Title..."
-                  contentPlaceholder="Enter Post Updated Content..."
+                  :text="$t('posts.edit_post')"
+                  :titlePlaceholder="$t('placeholders.updated_title')"
+                  :contentPlaceholder="$t('placeholders.updated_content')"
                   :updatingPostId="post.id"
                   :update="true"
                   :existingTitle="post.title"
@@ -45,7 +45,7 @@
                 />
                 <DeleteModal
                   v-if="openDeleteModal"
-                  text="Are you sure you want to delete this post?"
+                  :text="$t('posts.confirm_delete_post')"
                   @handleDeleteConfirmed="
                     handleDeletePost(post.id)
                     animateTitle()
@@ -73,10 +73,10 @@
       </div>
       <div v-else class="flex-center flex-col gap-10">
         <p class="mt-10 text-xl font-semibold">
-          No post to show. Kindly add one first.
+          {{ $t('posts.no_post') }}
         </p>
         <Button
-          text="Add Post"
+          :text="$t('posts.add_post')"
           :icon="require('@/assets/images/add-icon.svg')"
           :isSuccess="true"
           @handleClick="openAddModal = true"
@@ -150,7 +150,7 @@ export default {
     animateTitle() {
       let i = 0
       let direction = 'forward'
-      const text = 'HiTech Blog - Tech Unleashed...!'
+      const text = this.$i18n.t('tagline')
       const animate = () => {
         if (this.openDeleteModal) {
           console.log('not animating')
