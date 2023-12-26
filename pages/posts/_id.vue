@@ -118,7 +118,7 @@ import AddComment from '@/components/AddComment.vue'
 import AddOrUpdateModal from '@/components/AddOrUpdateModal.vue'
 import { format, formatDistanceToNow, parseISO } from 'date-fns'
 export default {
-  middleware: 'auth',
+  // middleware: 'auth',
   components: {
     Button,
     AddComment,

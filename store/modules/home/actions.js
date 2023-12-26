@@ -9,7 +9,7 @@ export default {
       return false
     } else {
       commit('addPost', post)
-      app.$toast.success(app.i18n.t('toasts.post.added'))
+      this.$toast.success('Added..........')
       return true
     }
   },
@@ -58,5 +58,13 @@ export default {
     } else {
       throw new Error(`Post with ID ${payload.postId} not found`)
     }
+  },
+
+  setLocale({ commit }, locale) {
+    commit('SET_LOCALE', locale)
+  },
+
+  setDir({ commit }, dir) {
+    commit('SET_DIR', dir)
   },
 }

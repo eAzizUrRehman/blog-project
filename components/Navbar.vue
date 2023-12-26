@@ -10,7 +10,7 @@
               loading="lazy"
               src="/logo.svg"
               alt="logo"
-              class="w-10 shadow-md hover:opacity-70"
+              class="w-10 hover:opacity-70"
             />
             <h3 class="my-auto w-20 overflow-auto px-1 font-semibold">
               {{ $i18n.t('title') }}
@@ -21,8 +21,21 @@
           v-for="locale in availableLocales"
           :key="locale.code"
           :to="switchLocalePath(locale.code)"
-          >{{ locale.name }}</NuxtLink
+          @click.native="changeLocale(locale.code)"
         >
+          {{ locale.name }}
+          {{ $auth.loggedIn }}
+        </NuxtLink>
+
+        <div v-if="$auth.loggedIn">
+          {{ $auth.user.email }}
+          <Button text="Logout" />
+        </div>
+        <div v-else>
+          <Button text="Login" @handleClick="$router.push('/login')" />
+          <Button text="Register" @handleClick="$router.push('/register')" />
+        </div>
+
         <div class="flex gap-4">
           <Button
             :text="$t('posts.show_posts')"
@@ -75,6 +88,13 @@ export default {
         return availableLocales
       }
       return []
+    },
+  },
+  methods: {
+    changeLocale(locale) {
+      this.$i18n.locale = locale
+      this.$store.dispatch('setLocale', locale)
+      this.$store.dispatch('setDir', locale === 'ur' ? 'rtl' : 'ltr')
     },
   },
 }

@@ -1,7 +1,10 @@
-// middleware/direction.js
-export default function ({ app }) {
-  const dir = app.i18n.locale === 'ur' ? 'rtl' : 'ltr'
+export default function ({ store }) {
   if (process.client) {
-    document.documentElement.setAttribute('dir', dir)
+    store.watch(
+      (state) => state.dir,
+      (newDir) => {
+        document.documentElement.setAttribute('dir', newDir)
+      },
+    )
   }
 }

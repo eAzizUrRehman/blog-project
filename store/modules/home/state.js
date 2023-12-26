@@ -3,3 +3,5 @@ export const blog = {
   posts: [],
 }
 export const locale = 'en'
+
+export const dir = 'ltr'

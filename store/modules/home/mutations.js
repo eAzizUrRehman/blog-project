@@ -55,7 +55,10 @@ export default {
       }
     }
   },
-  SET_LOCALE: (state, locale) => {
+  SET_LOCALE(state, locale) {
     state.locale = locale
+  },
+  SET_DIR(state, dir) {
+    state.dir = dir
   },
 }

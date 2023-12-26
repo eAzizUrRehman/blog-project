@@ -1,6 +1,7 @@
 <template>
   <div
     class="flex-center fixed inset-0 z-40 h-screen w-screen bg-opacity-5 backdrop-blur-md"
+    @click.self="$emit('handleDeleteCancelled')"
   >
     <div class="relative">
       <Button

@@ -19,9 +19,11 @@ export default {
   components: true,
   buildModules: ['@nuxtjs/tailwindcss'],
   modules: [
-    '@nuxtjs/i18n',
+    '@nuxtjs/axios',
     '@nuxtjs/auth',
+    '@nuxtjs/i18n',
     'vue-toastification/nuxt',
+    '@nuxtjs/sitemap',
     [
       'vue-toastification/nuxt',
       {
@@ -39,7 +41,7 @@ export default {
       },
       {
         code: 'ur',
-        name: 'Urdu',
+        name: 'اردو',
         file: 'ur.json',
       },
     ],
@@ -64,28 +66,51 @@ export default {
     lazy: true,
     langDir: 'locales/',
   },
+  axios: {
+    baseURL: 'http://localhost:3000/api',
+  },
   build: {},
   router: {
     middleware: 'direction',
   },
+  sitemap: {
+    hostname: 'https://yourwebsite.com',
+    gzip: true,
+    exclude: ['/secret', '/admin/**'],
+    routes: [
+      '/page/1',
+      {
+        url: '/page/2',
+        changefreq: 'daily',
+        priority: 1,
+        lastmod: '2024-01-01T13:00:00.000Z',
+      },
+    ],
+  },
   auth: {
     strategies: {
-      // local: {
-      //   endpoints: {
-      //     login: {
-      //       url: '/api/auth/login',
-      //       method: 'post',
-      //       propertyName: 'token',
-      //     },
-      //     logout: { url: '/api/auth/logout', method: 'post' },
-      //     user: { url: '/api/auth/user', method: 'get', propertyName: 'user' },
-      //   },
-      //   tokenRequired: true,
-      //   tokenType: 'bearer',
-      // },
-      google: {
-        clientId: 'YourClientID',
-        codeChallengeMethod: 'S256', // or 'plain'
+      local: {
+        endpoints: {
+          login: {
+            url: '/sessions',
+            method: 'post',
+            propertyName: 'token',
+          },
+          logout: {
+            url: '/api/auth/logout',
+            method: 'post',
+          },
+          user: {
+            url: '/sessions/user',
+            method: 'get',
+            propertyName: 'user',
+          },
+          register: {
+            url: '/register',
+            method: 'post',
+          },
+        },
+        tokenType: 'Bearer',
       },
     },
   },
