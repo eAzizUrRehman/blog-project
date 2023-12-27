@@ -1,5 +1,8 @@
 <template>
-  <div class="gradient text-shadow-default min-h-screen w-full text-white">
+  <div
+    class="gradient text-shadow-default min-h-screen w-full text-white"
+    dir="ltr"
+  >
     <Navbar />
     <main class="py-10">
       <nuxt />

@@ -47,10 +47,10 @@ export default {
     Button,
   },
   mounted() {
-    // document.body.classList.add('overflow-hidden')
+    document.body.classList.add('overflow-hidden')
   },
   beforeDestroy() {
-    // document.body.classList.remove('overflow-hidden')
+    document.body.classList.remove('overflow-hidden')
   },
 }
 </script>

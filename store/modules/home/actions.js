@@ -5,11 +5,11 @@ export default {
       (existingPost) => existingPost.title === post.title,
     )
     if (titleExists) {
-      this._vm.$toast.error('A post with this title already exists')
+      this._vm.$toast.error(this.$i18n.t('toasts.post.title_exists'))
       return false
     } else {
       commit('addPost', post)
-      this.$toast.success('Added..........')
+      this.$toast.success(this.$i18n.t('toasts.post.added'))
       return true
     }
   },
@@ -22,11 +22,11 @@ export default {
         post.title === payload.updatedPost.title &&
         post.content === payload.updatedPost.content
       ) {
-        this._vm.$toast.error('Kindly make changes to the post first')
+        this._vm.$toast.error(this.$i18n.t('toasts.post.no_changes'))
         return false
       } else {
         commit('updatePost', payload)
-        this._vm.$toast.success('Post updated successfully')
+        this._vm.$toast.success(this.$i18n.t('toasts.post.updated'))
         return true
       }
     } else {
@@ -35,7 +35,7 @@ export default {
   },
   async updateComment({ commit, state }, payload) {
     if (!payload.postId || !payload.commentId || !payload.updatedComment) {
-      this._vm.$toast.error('Something went wrong')
+      this._vm.$toast.error(this.$i18n.t('toasts.comment.something_wrong'))
       return false
     }
     const post = state.blog.posts.find((post) => post.id === payload.postId)
@@ -45,11 +45,11 @@ export default {
       )
       if (comment) {
         if (comment.text === payload.updatedComment.text) {
-          this._vm.$toast.error('Kindly make changes to the comment first')
+          this._vm.$toast.error(this.$i18n.t('toasts.comment.no_changes'))
           return false
         } else {
           commit('updateComment', payload)
-          this._vm.$toast.success('Comment updated successfully')
+          this._vm.$toast.success(this.$i18n.t('toasts.comment.updated'))
           return true
         }
       } else {
@@ -59,7 +59,6 @@ export default {
       throw new Error(`Post with ID ${payload.postId} not found`)
     }
   },
-
   setLocale({ commit }, locale) {
     commit('SET_LOCALE', locale)
   },

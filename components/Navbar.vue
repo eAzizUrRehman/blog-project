@@ -24,18 +24,7 @@
           @click.native="changeLocale(locale.code)"
         >
           {{ locale.name }}
-          {{ $auth.loggedIn }}
         </NuxtLink>
-
-        <div v-if="$auth.loggedIn">
-          {{ $auth.user.email }}
-          <Button text="Logout" />
-        </div>
-        <div v-else>
-          <Button text="Login" @handleClick="$router.push('/login')" />
-          <Button text="Register" @handleClick="$router.push('/register')" />
-        </div>
-
         <div class="flex gap-4">
           <Button
             :text="$t('posts.show_posts')"
@@ -53,6 +42,8 @@
             @handleAddOrUpdateCancelled="openAddOrUpdateModal = false"
             @postAdded="openAddOrUpdateModal = false"
           />
+          <Button :text="$t('buttons.login')" @handleClick="$router.push('/login')" />
+          <Button :text="$t('buttons.register')"   @handleClick="$router.push('/register')" />
         </div>
       </div>
     </div>
@@ -92,9 +83,9 @@ export default {
   },
   methods: {
     changeLocale(locale) {
-      this.$i18n.locale = locale
       this.$store.dispatch('setLocale', locale)
-      this.$store.dispatch('setDir', locale === 'ur' ? 'rtl' : 'ltr')
+      this.$store.dispatch('setDir', locale === 'en' ? 'ltr' : 'rtl')
+      this.$i18n.setLocale(locale)
     },
   },
 }

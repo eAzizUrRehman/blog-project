@@ -10,5 +10,8 @@ Vue.use(Toast, {
     error: {
       toastClassName: 'danger-toast',
     },
+    warning: {
+      toastClassName: 'warning-toast',
+    },
   },
 })

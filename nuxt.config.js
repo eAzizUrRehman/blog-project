@@ -2,10 +2,10 @@ export default {
   ssr: false,
   head: {
     title: 'HiTech Blog - Tech Unleashed...!',
-    htmlAttrs: {
-      lang: 'en',
-      dir: 'ltr',
-    },
+    // htmlAttrs: {
+    //   lang: 'en',
+    //   dir: 'ltr',
+    // },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -20,7 +20,6 @@ export default {
   buildModules: ['@nuxtjs/tailwindcss'],
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/auth',
     '@nuxtjs/i18n',
     'vue-toastification/nuxt',
     '@nuxtjs/sitemap',
@@ -49,21 +48,14 @@ export default {
     vueI18n: {
       fallbackLocale: 'en',
     },
-    detectBrowserLanguage: {
-      useCookie: true,
-      cookieKey: 'i18n_redirected',
-      redirectOn: 'root', // recommended
-      alwaysRedirect: true,
-    },
-    onLanguageSwitched: (oldLocale, newLocale) => {
-      if (newLocale === 'ur') {
-        document.documentElement.setAttribute('dir', 'rtl')
-      } else {
-        document.documentElement.setAttribute('dir', 'ltr')
-      }
-      // window.$nuxt.$store.commit('SET_LOCALE', newLocale)
+    vuex: {
+      moduleName: 'i18n',
+      syncLocale: true,
+      syncMessages: false,
+      syncRouteParams: true,
     },
     lazy: true,
+    strategy: 'no_prefix',
     langDir: 'locales/',
   },
   axios: {
@@ -71,7 +63,7 @@ export default {
   },
   build: {},
   router: {
-    middleware: 'direction',
+    middleware: 'i18n'
   },
   sitemap: {
     hostname: 'https://yourwebsite.com',
@@ -86,32 +78,5 @@ export default {
         lastmod: '2024-01-01T13:00:00.000Z',
       },
     ],
-  },
-  auth: {
-    strategies: {
-      local: {
-        endpoints: {
-          login: {
-            url: '/sessions',
-            method: 'post',
-            propertyName: 'token',
-          },
-          logout: {
-            url: '/api/auth/logout',
-            method: 'post',
-          },
-          user: {
-            url: '/sessions/user',
-            method: 'get',
-            propertyName: 'user',
-          },
-          register: {
-            url: '/register',
-            method: 'post',
-          },
-        },
-        tokenType: 'Bearer',
-      },
-    },
   },
 }

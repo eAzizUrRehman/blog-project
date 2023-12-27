@@ -24,14 +24,14 @@
                 <Button
                   :icon="require('@/assets/images/edit-icon.svg')"
                   :isSuccess="true"
-                  @handleClick="openUpdateModal = true"
+                  @handleClick="handleUpdateClick(post.id)"
                 />
                 <AddOrUpdateModal
                   v-if="openUpdateModal"
                   :text="$t('posts.edit_post')"
                   :titlePlaceholder="$t('placeholders.updated_title')"
                   :contentPlaceholder="$t('placeholders.updated_content')"
-                  :updatingPostId="post.id"
+                  :updatingPostId="selectedPostId"
                   :update="true"
                   :existingTitle="post.title"
                   :existingContent="post.content"
@@ -105,8 +105,10 @@ export default {
       deleteConfirmed: false,
       openAddModal: false,
       openUpdateModal: false,
+      selectedPostId: '',
       animatedTitle: '',
       intervalId: null,
+      timeoutId: null,
     }
   },
   computed: {
@@ -119,6 +121,12 @@ export default {
       if (newPosts.length === 0) {
         this.openAddModal = false
       }
+    },
+    '$i18n.locale': {
+      immediate: true,
+      handler() {
+        this.animateTitle()
+      },
     },
   },
   methods: {
@@ -147,10 +155,15 @@ export default {
       this.$store.commit('deletePost', id)
       this.openDeleteModal = false
     },
+    handleUpdateClick(id) {
+      this.openUpdateModal = true
+      this.selectedPostId = id
+    },
     animateTitle() {
       let i = 0
       let direction = 'forward'
       const text = this.$i18n.t('tagline')
+
       const animate = () => {
         if (this.openDeleteModal) {
           console.log('not animating')
@@ -174,8 +187,13 @@ export default {
           }
         }
         const speed = direction === 'forward' ? 200 : 25
-        setTimeout(animate, speed)
+        this.timeoutId = setTimeout(animate, speed)
       }
+
+      if (this.timeoutId) {
+        clearTimeout(this.timeoutId)
+      }
+
       if (!this.openDeleteModal) {
         animate()
       }

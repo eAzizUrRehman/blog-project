@@ -22,6 +22,9 @@
   "buttons": {
     "update": "Update",
     "submit": "Submit",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
     "yes": "Yes",
     "no": "No"
   },
@@ -29,15 +32,19 @@
     "post": {
       "added": "Post Added Successfully.",
       "updated": "Post Updated Successfully.",
-      "deleted": "Post Deleted Successfully."
+      "deleted": "Post Deleted Successfully.",
+      "title_empty": "Post's title cannot be empty",
+      "content_empty": "Please include some content.",
+      "title_exists": "A post with this title already exists",
+      "no_changes": "No changes made to the post"
     },
     "comment": {
       "added": "Comment Added Successfully.",
       "updated": "Comment Updated Successfully.",
-      "deleted": "Comment Deleted Successfully."
-    },
-    "input": {
-      "title_empty": "Title cannot be empty"
+      "deleted": "Comment Deleted Successfully.",
+      "empty": "Comment cannot be empty",
+      "no_changes": "No changes made to the comment",
+      "something_wrong":"Something went wrong."
     }
   },
   "copyright": "Aziz Ur Rehman, all rights reserved."

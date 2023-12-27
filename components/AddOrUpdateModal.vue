@@ -4,6 +4,7 @@
     @click.self="$emit('handleAddOrUpdateCancelled')"
   >
     <div class="relative">
+      {{existingTitle}}
       <Button
         :icon="require('@/assets/images/cross-icon.svg')"
         :isDanger="true"
@@ -113,11 +114,11 @@ export default {
     async handleClicked() {
       console.log('handleClicked runs')
       if (!this.post.title.trim()) {
-        this.$toast.error(this.$t('toasts.input.title_empty'))
+        this.$toast.error(this.$t('toasts.post.title_empty'))
         return
       }
       if (!this.post.content.trim()) {
-        this.$toast.error('Kindly add content too')
+        this.$toast.error(this.$t('toasts.post.content_empty'))
         return
       }
       const tempPost = {

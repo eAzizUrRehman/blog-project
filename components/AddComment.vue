@@ -37,7 +37,7 @@ export default {
   methods: {
     addComment() {
       if (!this.comment.text.trim()) {
-        this.$toast.error('Comment cannot be empty')
+        this.$toast.error(this.$t('toasts.comment.empty'))
         return
       }
       const tempComment = {

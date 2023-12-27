@@ -5,7 +5,6 @@
     >
       <Button
         :icon="require('@/assets/images/cross-icon.svg')"
-        :isDanger="true"
         @handleClick="$router.push('/')"
         class="absolute right-4 top-4"
       />
@@ -118,7 +117,6 @@ import AddComment from '@/components/AddComment.vue'
 import AddOrUpdateModal from '@/components/AddOrUpdateModal.vue'
 import { format, formatDistanceToNow, parseISO } from 'date-fns'
 export default {
-  // middleware: 'auth',
   components: {
     Button,
     AddComment,
@@ -201,7 +199,7 @@ export default {
     },
     async saveComment(commentId) {
       if (!this.updatedCommentText.trim()) {
-        this.$toast.error('Comment cannot be empty')
+        this.$toast.error(this.$t('toasts.comment.empty'))
         return
       }
       const wasUpdated = await this.$store.dispatch('updateComment', {

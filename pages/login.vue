@@ -1,8 +1,14 @@
 <template>
   <div
-    class="container-8x gradient border-all dim-white-border flex-center flex-col gap-4 rounded-2xl bg-red-400 px-5 py-10"
+    class="container-8x gradient border-all dim-white-border flex-center flex-col gap-4 rounded-2xl bg-red-400 px-5 py-10 relative"
   >
-    <h1 class="text-2xl font-semibold">Login</h1>
+  <Button
+        :icon="require('@/assets/images/cross-icon.svg')"
+        @handleClick="$router.push('/')"
+        class="absolute right-4 top-4"
+      />
+
+    <h1 class="text-2xl font-semibold">{{$t('buttons.login')}}</h1>
     <form @submit.prevent="" class="flex-center flex-col gap-4">
       <input
         type="email"
@@ -16,9 +22,8 @@
         placeholder="Password"
         class="gradient border-all dim-white-border rounded px-4 py-2 outline-none"
       />
-      <Button text="Login" :isSuccess="true" @handleClick="loginUser" />
+      <Button :text="$t('buttons.login')" :isSuccess="true" @handleClick="loginUser" />
     </form>
-    {{ $auth.loggedIn }}
   </div>
 </template>
 
@@ -30,36 +35,24 @@ export default {
   },
   data() {
     return {
-      username: 'aziz',
-      password: 'aziz',
+      loginInfo: {
+        username: '',
+        password: '',
+      },
     }
   },
   methods: {
-    async loginUser() {
-      try {
-        console.log('Attempting to log in with:', {
-          username: this.username,
-          password: this.password,
-        })
-
-        const response = await this.$auth.loginWith('local', {
-          data: {
-            username: this.username,
-            password: this.password,
-          },
-        })
-
-        console.log('Login response:', response)
-
-        if (this.$auth.loggedIn) {
-          console.log('Login successful')
-        } else {
-          console.log('Login failed: $auth.loggedIn is still false')
-        }
-      } catch (err) {
-        console.error('Login error:', err)
-      }
-    },
+    // loginUser(loginInfo) {
+    // },
+  },
+  mounted() {
+    this.$toast.warning(
+      "Login is disabled due to a missing JSON server.",
+      {
+        position: 'top-center',
+        timeout: 5000,
+      },
+    )
   },
 }
 </script>
