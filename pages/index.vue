@@ -26,34 +26,12 @@
                   :isSuccess="true"
                   @handleClick="handleUpdateClick(post.id)"
                 />
-                <AddOrUpdateModal
-                  v-if="openUpdateModal"
-                  :text="$t('posts.edit_post')"
-                  :titlePlaceholder="$t('placeholders.updated_title')"
-                  :contentPlaceholder="$t('placeholders.updated_content')"
-                  :updatingPostId="selectedPostId"
-                  :update="true"
-                  :existingTitle="post.title"
-                  :existingContent="post.content"
-                  @handleAddOrUpdateCancelled="openUpdateModal = false"
-                  @postUpdated="openUpdateModal = false"
-                />
+
                 <Button
                   :icon="require('@/assets/images/delete-icon.svg')"
                   :isDanger="true"
-                  @handleClick="openDeleteModal = true"
-                />
-                <DeleteModal
-                  v-if="openDeleteModal"
-                  :text="$t('posts.confirm_delete_post')"
-                  @handleDeleteConfirmed="
-                    handleDeletePost(post.id)
-                    animateTitle()
-                  "
-                  @handleDeleteCancelled="
-                    openDeleteModal = false
-                    animateTitle()
-                  "
+                  openDeleteModal="true"
+                  @handleClick="handleDeleteClick(post.id)"
                 />
               </div>
             </div>
@@ -88,6 +66,25 @@
         />
       </div>
     </div>
+    <AddOrUpdateModal
+      v-if="openUpdateModal"
+      :text="$t('posts.edit_post')"
+      :titlePlaceholder="$t('placeholders.updated_title')"
+      :contentPlaceholder="$t('placeholders.updated_content')"
+      :updatingPostId="selectedPostId"
+      :update="true"
+      @handleAddOrUpdateCancelled="openUpdateModal = false"
+      @postUpdated="openUpdateModal = false"
+    />
+    <DeleteModal
+      v-if="openDeleteModal"
+      :text="$t('posts.confirm_delete_post')"
+      @handleDeleteConfirmed="handleDeletePost(selectedPostId)"
+      @handleDeleteCancelled="
+        openDeleteModal = false
+        animateTitle()
+      "
+    />
   </div>
 </template>
 <script>
@@ -154,9 +151,15 @@ export default {
     handleDeletePost(id) {
       this.$store.commit('deletePost', id)
       this.openDeleteModal = false
+      this.animateTitle()
+      console.log(id)
     },
     handleUpdateClick(id) {
       this.openUpdateModal = true
+      this.selectedPostId = id
+    },
+    handleDeleteClick(id) {
+      this.openDeleteModal = true
       this.selectedPostId = id
     },
     animateTitle() {
@@ -166,7 +169,6 @@ export default {
 
       const animate = () => {
         if (this.openDeleteModal) {
-          console.log('not animating')
           return
         }
         if (direction === 'forward') {

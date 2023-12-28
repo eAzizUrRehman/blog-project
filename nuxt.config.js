@@ -63,7 +63,7 @@ export default {
   },
   build: {},
   router: {
-    middleware: 'i18n'
+    middleware: 'i18n',
   },
   sitemap: {
     hostname: 'https://yourwebsite.com',

@@ -44,8 +44,10 @@
       "deleted": "Comment Deleted Successfully.",
       "empty": "Comment cannot be empty",
       "no_changes": "No changes made to the comment",
-      "something_wrong":"Something went wrong."
+      "something_wrong": "Something went wrong."
     }
   },
+  "registeration_disabled": "Registeration may be disabled if missing JSON server.",
+  "login_disabled": "Login may be disabled if missing JSON server.",
   "copyright": "Aziz Ur Rehman, all rights reserved."
 }

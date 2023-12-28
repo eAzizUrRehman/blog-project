@@ -42,8 +42,14 @@
             @handleAddOrUpdateCancelled="openAddOrUpdateModal = false"
             @postAdded="openAddOrUpdateModal = false"
           />
-          <Button :text="$t('buttons.login')" @handleClick="$router.push('/login')" />
-          <Button :text="$t('buttons.register')"   @handleClick="$router.push('/register')" />
+          <Button
+            :text="$t('buttons.login')"
+            @handleClick="$router.push('/login')"
+          />
+          <Button
+            :text="$t('buttons.register')"
+            @handleClick="$router.push('/register')"
+          />
         </div>
       </div>
     </div>
@@ -75,7 +81,6 @@ export default {
         const availableLocales = this.locales.filter(
           (i) => i.code !== this.locale,
         )
-        console.log('availableLocales:', availableLocales)
         return availableLocales
       }
       return []

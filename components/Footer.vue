@@ -15,37 +15,7 @@
 <script>
 export default {
   data: function () {
-    return {
-      // languages: ['en', 'ur']
-    }
+    return {}
   },
-  // computed: {
-  //   lang: {
-  //     get() {
-  //       console.log('Getting lang:', this.$store.state.lang)
-  //       return this.$store.state.lang
-  //     },
-  //     set(value) {
-  //       console.log('Setting lang:', value)
-  //       this.$store.commit('SET_LANG', value)
-  //     }
-  //   }
-  // },
-  // methods: {
-  //   changeLanguage(lang) {
-  //     console.log('Changing language to:', lang)
-  //     this.lang = lang
-  //   }
-  // },
-  // watch: {
-  //   lang(value) {
-  //     console.log('Lang changed to:', value)
-  //     this.$i18n.locale = value
-  //   }
-  // },
-  // mounted() {
-  //   console.log('Mounted, setting locale to:', this.lang)
-  //   this.$i18n.locale = this.lang
-  // }
 }
 </script>

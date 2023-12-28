@@ -96,8 +96,6 @@
       :contentPlaceholder="$t('placeholders.updated_content')"
       :updatingPostId="post.id"
       :update="true"
-      :existingTitle="post.title"
-      :existingContent="post.content"
       @handleAddOrUpdateCancelled="openAddOrUpdateModal = false"
       @postAdded="openAddOrUpdateModal = false"
       @postUpdated="openAddOrUpdateModal = false"

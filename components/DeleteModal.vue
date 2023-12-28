@@ -14,7 +14,13 @@
       <div
         class="flex-center gradient border-all dim-white-border z-50 flex-col rounded-2xl px-20 py-10 shadow-xl"
       >
-        <p class="text-3xl">⚠️</p>
+        <img
+          src="@/assets/images/info-icon.svg"
+          alt=""
+          width="30"
+          loading="lazy"
+          class="shadow-lg"
+        />
         <p class="mt-2 text-xl font-semibold">
           {{ $t('posts.confirm_delete_post') }}
         </p>

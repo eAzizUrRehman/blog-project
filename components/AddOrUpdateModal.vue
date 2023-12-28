@@ -4,7 +4,7 @@
     @click.self="$emit('handleAddOrUpdateCancelled')"
   >
     <div class="relative">
-      {{existingTitle}}
+      {{ existingTitle }}
       <Button
         :icon="require('@/assets/images/cross-icon.svg')"
         :isDanger="true"
@@ -104,15 +104,21 @@ export default {
   data() {
     return {
       post: {
-        title: this.existingTitle || '',
-        content: this.existingContent || '',
+        title: '',
+        content: '',
       },
     }
+  },
+  computed: {
+    updatingPost() {
+      return this.$store.state.blog.posts.find(
+        (post) => post.id === this.updatingPostId,
+      )
+    },
   },
 
   methods: {
     async handleClicked() {
-      console.log('handleClicked runs')
       if (!this.post.title.trim()) {
         this.$toast.error(this.$t('toasts.post.title_empty'))
         return
@@ -137,7 +143,6 @@ export default {
         }
       } else {
         const wasAdded = await this.$store.dispatch('addPost', tempPost)
-        console.log('wasAdded', wasAdded)
         if (wasAdded) {
           this.$emit('postAdded', wasAdded)
         }
@@ -152,6 +157,10 @@ export default {
         this.$refs.titleInput.select()
       }
     })
+    if (this.update) {
+      // copy of updatingPost
+      this.post = { ...this.updatingPost }
+    }
   },
   beforeDestroy() {
     document.body.classList.remove('overflow-hidden')
